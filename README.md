@@ -2,24 +2,19 @@ Exercise
 ## Objetivo
 Familiarizarse con uso de flujos de trabajo reutilizables. (Reusable Workflows)
 
-Partimos de una ide 
+Partimos de una la idea de flujos respresentada a continuación:
 
 ```mermaid
 graph TD
    subgraph "Main Workflow"        
-        A2["Start (workflow_dispatch)"] -->|Uses 18-1-reusable-workflow| B2["Job: deploy"]        
-       
-        C2 --> D2["Step: Print outputs"]
-        D2 -->|Prints 'Build status' and 'URL'| E2["End"]
+        A2["Start (workflow_dispatch)"] --> B2["Job: deploy"]               
+        C2 -->|Prints 'Build status' and 'URL'| E2["End"]
       
     end
 
     subgraph "Reusable Workflow"
-        A1["Start (workflow_call)"] -->|Input: target-directory| B1["Job: deploy (ubuntu-latest)"]
-        B1 --> C1["Step 1: Checkout repo"]        
-        C1 --> D1["Step 2: Build (id: build)"]
-        D1 -->|Output: build-status = success| E1["Step 3: Deploy (id: deploy)"]
-        E1 -->|Output: url = 'https://www.google.com'| F1["End (Outputs: build-status, url)"]        
+        A1["Start (workflow_call)"] -->|target-directory| B1["Job: deploy"]      
+        B1 -->|build-status, url | F1["End "]        
         B2 --> |inputs: target-directory, url| A1
         F1 -.->|Outputs: build-status, url| C2["Job: print-outputs (ubuntu-latest)"]          
     end
@@ -30,12 +25,8 @@ graph TD
     style A1 fill:#f9f,stroke:#333,stroke-width:2px;
     style A2 fill:#f9f,stroke:#333,stroke-width:2px;
     style B1 fill:#bbf,stroke:#333,stroke-width:2px;
-    style B2 fill:#bbf,stroke:#333,stroke-width:2px;
-    style C1 fill:#ccf,stroke:#333,stroke-width:1px;
-    style C2 fill:#ccf,stroke:#333,stroke-width:1px;
-    style D1 fill:#ccf,stroke:#333,stroke-width:1px;
-    style D2 fill:#ccf,stroke:#333,stroke-width:1px;
-    style E1 fill:#ccf,stroke:#333,stroke-width:1px;
+    style B2 fill:#bbf,stroke:#333,stroke-width:2px;    
+    style C2 fill:#bbf,stroke:#333,stroke-width:1px;
     style F1 fill:#fc9,stroke:#333,stroke-width:2px;
     style E2 fill:#fc9,stroke:#333,stroke-width:2px;
 
