@@ -1,0 +1,33 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: check job execution
+      id: check-job-execution
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: check job execution
+        setup-command: echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
+        command: gh run list --repo ${{ github.repository }} --workflow 'Main Workflow'
+          --json conclusion | grep success
+        input: ''
+        expected-output: ".*success.*"
+        comparison-method: regex
+        timeout: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        CHECK-JOB-EXECUTION_RESULTS: "${{steps.check-job-execution.outputs.result}}"
+      with:
+        runners: check-job-execution
