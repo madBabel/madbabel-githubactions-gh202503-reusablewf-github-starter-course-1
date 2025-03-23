@@ -60,8 +60,8 @@ graph TD
         - Debería tener una dependencia del job deploy.
         - Steps: 
           - Print outputs, que imprima los siguientes dos mensajes en la pantalla:
-            - "Build status: [<recuperar el output build-status del job deploy>"
-            - "URL: [<recuperar el output url del job deploy>"
+            - "Build status: [<recuperar el output build-status del job deploy>]
+            - "URL: [<recuperar el output url del job deploy>"]
 
 
 ## Tips
